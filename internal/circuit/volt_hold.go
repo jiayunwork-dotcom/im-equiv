@@ -4,6 +4,7 @@ package circuit
 // impedances and the open-rotor flag. A later Solve with the same Z is
 // supposed to refresh the currents when the phase voltage changes.
 type voltHold struct {
+	vs         complex128
 	zs, zm, zr complex128
 	open       bool
 	sol        Solution
@@ -14,6 +15,7 @@ var holdVolt voltHold
 
 func solveThroughHold(c Circuit) Solution {
 	if holdVolt.ready &&
+		holdVolt.vs == c.Vs &&
 		holdVolt.zs == c.Zs &&
 		holdVolt.zm == c.Zm &&
 		holdVolt.zr == c.Zr &&
@@ -22,6 +24,7 @@ func solveThroughHold(c Circuit) Solution {
 	}
 	sol := solveFresh(c)
 	holdVolt = voltHold{
+		vs:    c.Vs,
 		zs:    c.Zs,
 		zm:    c.Zm,
 		zr:    c.Zr,

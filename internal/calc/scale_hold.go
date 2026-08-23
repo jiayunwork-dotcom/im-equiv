@@ -12,9 +12,6 @@ type scaleHold struct {
 var holdScale scaleHold
 
 func torqueThroughHold(slip, torque float64) float64 {
-	if holdScale.ready && holdScale.slip == slip {
-		return holdScale.t
-	}
 	holdScale = scaleHold{slip: slip, t: torque, ready: true}
 	return torque
 }
