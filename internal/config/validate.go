@@ -44,11 +44,11 @@ func ValidateAll(in Input) error {
 // caller can see every defective field, and the shared error text keeps the
 // single-field Validate consistent with the aggregate ValidateAll.
 func validateAll(in Input) []error {
-	var errs []error
+	var bag issueBag
 
 	add := func(bad bool, msg string, args ...any) {
 		if bad {
-			errs = append(errs, fmt.Errorf(msg, args...))
+			bag.remember(fmt.Errorf(msg, args...))
 		}
 	}
 
@@ -77,5 +77,5 @@ func validateAll(in Input) []error {
 			"%s must be a finite number, got %g", item.name, item.v)
 	}
 
-	return errs
+	return bag.list()
 }
