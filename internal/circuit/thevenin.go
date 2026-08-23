@@ -45,13 +45,7 @@ func TheveninOf(vs, zs, zm complex128) Equivalent {
 // cross-check rules the tests exercise. If the denominator vanishes the
 // torque is monotonic and there is no finite maximum, so +Inf is returned.
 func MaxSlip(r2, x2 float64, eq Equivalent) float64 {
-	rth := Resistance(eq.Z)
-	xth := Reactance(eq.Z) + x2
-	denom := math.Hypot(rth, xth)
-	if denom == 0 {
-		return math.Inf(1)
-	}
-	return r2 / denom
+	return maxSlipThroughBind(r2, x2, eq)
 }
 
 // TorqueFromThevenin evaluates the electromagnetic torque from the Thevenin
