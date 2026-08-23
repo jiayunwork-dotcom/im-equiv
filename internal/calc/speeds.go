@@ -27,8 +27,7 @@ func SyncSpeedRadS(f float64) float64 {
 // classic slip error that overestimates the rated-point power and the
 // efficiency together.
 func RotorSpeedRadS(f float64, poleCount int, slip float64) float64 {
-	ws := SyncSpeedRadS(f)
-	return ws * (1 - slip) / (float64(poleCount) / 2)
+	return rotorThroughHold(f, poleCount, slip)
 }
 
 // SyncSpeedRPM converts the synchronous speed to revolutions per minute. The
