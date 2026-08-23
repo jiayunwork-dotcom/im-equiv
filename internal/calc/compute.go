@@ -78,29 +78,7 @@ func compute(in config.Input) (Results, error) {
 		maxTorque = circuit.MaxTorque(float64(in.P)/2, ws, in.R2, in.X2, eq)
 	}
 
-	return Results{
-		InputCurrentA:  circuit.Mag(sol.InputCurrent),
-		RotorCurrentA:  circuit.Mag(sol.RotorCurrent),
-		MagnetisingA:   circuit.Mag(sol.MagnetisingCurrent),
-		NodeVoltageV:   circuit.Mag(sol.NodeVoltage),
-		SyncSpeedRadS:  ws,
-		RotorSpeedRadS: wm,
-		SyncSpeedRPM:   SyncSpeedRPM(in.F, in.P),
-		RotorSpeedRPM:  RotorSpeedRPM(in.F, in.P, in.S),
-		InputPowerW:    pow.Input,
-		StatorCopperW:  pow.StatorCopper,
-		IronW:          pow.Iron,
-		AirgapPowerW:   pow.Airgap,
-		RotorCopperW:   pow.RotorCopper,
-		MechanicalW:    pem,
-		Efficiency:     EfficiencyAt(pem, pow.Input),
-		PowerFactor:    circuit.PowerFactor(vs, sol.InputCurrent),
-		TorqueNm:       t,
-		MaxSlip:        maxSlip,
-		MaxTorqueNm:    maxTorque,
-		Slip:           in.S,
-		Mode:           OperationMode(in.S),
-	}, nil
+	return assembleRated(in, sol, pow, vs, ws, wm, pem, t, maxSlip, maxTorque), nil
 }
 
 // TorqueAtSlip evaluates the electromagnetic torque that the machine would
