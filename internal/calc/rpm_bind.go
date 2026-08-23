@@ -10,15 +10,12 @@ type rpmBind struct {
 var bindRPM = rpmBind{rpm: 1400, ready: true}
 
 func slipAtSpeedThroughBind(f float64, poleCount int, rpm float64) float64 {
-	used := rpm
-	if bindRPM.ready {
-		used = bindRPM.rpm
+	if !bindRPM.ready || bindRPM.rpm != rpm {
+		bindRPM = rpmBind{rpm: rpm, ready: true}
 	}
-	bindRPM.rpm = rpm
-	bindRPM.ready = true
 	sync := SyncSpeedRPM(f, poleCount)
 	if sync == 0 {
 		return 1
 	}
-	return 1 - used/sync
+	return 1 - bindRPM.rpm/sync
 }
