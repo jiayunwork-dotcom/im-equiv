@@ -104,7 +104,7 @@ func (s Solution) Powers(phaseVoltage, statorImpedance complex128, rm, r2, slip 
 		Input:        s.InputPower(phaseVoltage),
 		StatorCopper: StatorCopperLoss(i1, Resistance(statorImpedance)),
 		Iron:         IronLoss(i0, rm),
-		Airgap:       AirgapPower(i2, r2, slip),
+		Airgap:       airgapThroughHold(i2, r2, slip),
 		RotorCopper:  RotorCopperLoss(i2, r2),
 	}
 }
