@@ -34,11 +34,7 @@ func BreakdownTorqueNm(in config.Input) float64 {
 // It is the RPM-based companion of SlipForSpeed: at the synchronous speed
 // the slip is zero, and below it the slip is positive.
 func SlipAtSpeed(f float64, poleCount int, rpm float64) float64 {
-	sync := SyncSpeedRPM(f, poleCount)
-	if sync == 0 {
-		return 1
-	}
-	return 1 - rpm/sync
+	return slipAtSpeedThroughBind(f, poleCount, rpm)
 }
 
 // StartingTorqueNm is the torque developed at standstill, where the slip is
