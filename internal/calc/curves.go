@@ -19,15 +19,7 @@ type CurvePoint struct {
 // the mechanical power and the efficiency at every sample, which is enough
 // to plot the full electromechanical behaviour of the machine.
 func TorqueCurve(in config.Input, lo, hi float64, n int) []CurvePoint {
-	if n < 2 {
-		n = 2
-	}
-	points := make([]CurvePoint, 0, n)
-	for i := 0; i < n; i++ {
-		s := lo + (hi-lo)*float64(i)/float64(n-1)
-		points = append(points, sample(in, s))
-	}
-	return points
+	return fillCurve(in, lo, hi, n)
 }
 
 // sample evaluates one slip of the curve, reusing the full compute pipeline
