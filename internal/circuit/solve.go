@@ -48,6 +48,10 @@ type Solution struct {
 // branch and the rotor current is exactly zero, reproducing the synchronous
 // operating point.
 func (c Circuit) Solve() Solution {
+	return solveThroughHold(c)
+}
+
+func solveFresh(c Circuit) Solution {
 	parallel := c.Zm
 	if !c.RotorOpen {
 		parallel = Parallel(c.Zm, c.Zr)

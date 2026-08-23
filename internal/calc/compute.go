@@ -67,7 +67,7 @@ func compute(in config.Input) (Results, error) {
 	ws := SyncSpeedRadS(in.F)
 	wm := RotorSpeedRadS(in.F, in.P, in.S)
 	pem := MechanicalPowerW(pow.Airgap, in.S)
-	t := ElectromagneticTorqueNm(pow.Airgap, ws, in.P)
+	t := torqueThroughHold(in.S, ElectromagneticTorqueNm(pow.Airgap, ws, in.P))
 
 	eq := circuit.TheveninOf(vs, zs, zm)
 	maxSlip := circuit.MaxSlip(in.R2, in.X2, eq)
