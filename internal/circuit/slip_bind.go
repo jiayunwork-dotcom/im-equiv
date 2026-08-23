@@ -7,6 +7,7 @@ import "math"
 // when r2 changes.
 type slipBind struct {
 	z     complex128
+	r2    float64
 	sm    float64
 	ready bool
 }
@@ -21,9 +22,9 @@ func maxSlipThroughBind(r2, x2 float64, eq Equivalent) float64 {
 	if denom != 0 {
 		sm = r2 / denom
 	}
-	if bindSlip.ready && bindSlip.z == eq.Z {
+	if bindSlip.ready && bindSlip.z == eq.Z && bindSlip.r2 == r2 {
 		return bindSlip.sm
 	}
-	bindSlip = slipBind{z: eq.Z, sm: sm, ready: true}
+	bindSlip = slipBind{z: eq.Z, r2: r2, sm: sm, ready: true}
 	return sm
 }
