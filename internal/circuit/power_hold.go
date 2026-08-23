@@ -11,11 +11,8 @@ type powerHold struct {
 var holdPower = powerHold{slip: 1.0, ready: true}
 
 func airgapThroughHold(rotorCurrentMag, r2, slip float64) float64 {
-	used := slip
-	if holdPower.ready {
-		used = holdPower.slip
+	if !holdPower.ready || holdPower.slip != slip {
+		holdPower = powerHold{slip: slip, ready: true}
 	}
-	holdPower.slip = slip
-	holdPower.ready = true
-	return AirgapPower(rotorCurrentMag, r2, used)
+	return AirgapPower(rotorCurrentMag, r2, holdPower.slip)
 }
