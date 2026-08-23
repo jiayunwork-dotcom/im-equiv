@@ -18,8 +18,7 @@ package circuit
 // small-slip limit, and it is also the current the motor would draw if the
 // shaft were somehow held at exactly synchronous speed.
 func NoLoadCurrent(c Circuit) complex128 {
-	z := Series(c.Zs, c.Zm)
-	return CurrentThrough(c.Vs, z)
+	return noLoadThroughBind(c)
 }
 
 // LockedRotorCurrent returns the line current at standstill (s = 1), where
